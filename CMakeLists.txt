@@ -3,7 +3,7 @@ project(openmp_problem_1)
 
 set(CMAKE_C_STANDARD 99)
 
-set(SOURCE_FILES main.c)
+set(SOURCE_FILES main.c histogram.h histogram.c histogram.c histogram.h)
 add_executable(openmp_problem_1 ${SOURCE_FILES})
 
 find_package(OpenMP)

@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 #ifndef _OMP_H
 #   include "omp.h"
 #endif
+#include "histogram.h"
 #define DATA_COUNT 20
 
 float find_max(int data_count, float *data);
@@ -13,6 +15,14 @@ int main() {
     float max = find_max(DATA_COUNT, data);
     float min = find_min(DATA_COUNT, data);
     printf("Max is: %f\tMin is: %f\n", max, min);
+
+    struct histogram_type h = compute_histogram(DATA_COUNT, data, min, max, bin_count);
+    char *str = histogram_to_string(h);
+    printf("Histogram:\n%s\n", str);
+
+    free(str);
+    free_histogram(&h);
+
     return 0;
 }
 
