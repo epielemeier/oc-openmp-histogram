@@ -38,11 +38,24 @@ char* histogram_to_string(struct histogram_type h) {
 }
 
 int find_bin_for_datum(float d, struct histogram_type *h) {
-    for (int i = 0; i < h->num_bins; i++) {
-        if (d <= h->bin_maxes[i] && (i == 0 || d > h->bin_maxes[i - 1])) {
-            return i;
+    int i = h->num_bins / 2;
+    int found_bin = -1;
+    while (found_bin < 0) {
+        if (i == 0 || i == h->num_bins - 1) found_bin = i;
+        // in a lower bin
+        if (d <= h->bin_maxes[i - 1]) {
+            i = i / 2;
+        }
+        // in an upper bin
+        else if (d > h->bin_maxes[i]) {
+            i = (h->num_bins + i) / 2;
+        }
+        // in this bin
+        else {
+            found_bin = i;
         }
     }
+    return found_bin;
 }
 
 struct histogram_type compute_histogram(int data_count, float *data, float min_meas, float max_meas, int bin_count) {
